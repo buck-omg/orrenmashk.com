@@ -1661,4 +1661,20 @@ function closeMobile() {
 // ── CONTACT FORM ─────────────────────────────────────────────────────
 function handleSubmit(e) {
   e.preventDefault();
-  const btn = e.target.querySelector('.f
+  const btn = e.target.querySelector('.form-submit');
+  btn.textContent = 'Inquiry Sent';
+  btn.style.background = 'linear-gradient(135deg, #2a6a2a, #1a4a1a)';
+  btn.style.color = '#90d890';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = 'Send Inquiry';
+    btn.style.background = '';
+    btn.style.color = '';
+    btn.disabled = false;
+    e.target.reset();
+  }, 4000);
+}
+</script>
+
+</body>
+</html>
