@@ -1533,7 +1533,7 @@ footer {
           </div>
           <div class="contact-row">
             <span class="contact-label">Email</span>
-            <span class="contact-value"><a href="/cdn-cgi/l/email-protection#96fff8f0f9d6f9e4e4f3f8fbf7e5fefdb8f5f9fb"><span class="__cf_email__" data-cfemail="b1d8dfd7def1dec3c3d4dfdcd0c2d9da9fd2dedc">[email&#160;protected]</span></a></span>
+            <span class="contact-value" id="contact-email-display"></span>
           </div>
           <div class="contact-row">
             <span class="contact-label">Location</span>
@@ -1613,7 +1613,7 @@ footer {
       <h4>Contact</h4>
       <address>
         <span>OrrenMashk Group Inc.</span>
-        <a href="/cdn-cgi/l/email-protection#365f5850597659444453585b57455e5d1855595b"><span class="__cf_email__" data-cfemail="0960676f6649667b7b6c6764687a6162276a6664">[email&#160;protected]</span></a>
+        <a id="footer-email-display"></a>
         <span>Sneads Ferry, NC 28460</span>
       </address>
     </div>
@@ -1659,6 +1659,16 @@ function closeMobile() {
 }
 
 // ── CONTACT FORM ─────────────────────────────────────────────────────
+// ── EMAIL RENDER (defeat proxy obfuscation) ──────────────────────────
+(function() {
+  var u = 'info', d = 'orrenmashk', t = 'com';
+  var e = u + '\u0040' + d + '\u002E' + t;
+  var c = document.getElementById('contact-email-display');
+  if (c) { c.innerHTML = '<a href="mailto:' + e + '">' + e + '</a>'; }
+  var f = document.getElementById('footer-email-display');
+  if (f) { f.href = 'mailto:' + e; f.textContent = e; }
+})();
+
 function handleSubmit(e) {
   e.preventDefault();
   const btn = e.target.querySelector('.form-submit');
