@@ -142,10 +142,10 @@ section + section { border-top: 1px solid var(--om-rule); }
 /* ---------- Header & navigation ---------- */
 .site-header {
   background: rgba(10, 10, 10, 0.92);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--om-rule);
-  position: sticky; top: 0; z-index: 100;
+  position: sticky; top: 0; z-index: 50;
+  /* Note: backdrop-filter was removed intentionally; it creates a new
+     containing block that traps the fixed-positioned mobile drawer. */
 }
 .nav-row {
   display: flex;
