@@ -478,4 +478,3 @@ section + section { border-top: 1px solid var(--om-rule); }
   .site-header, .site-footer, .nav-toggle { display: none; }
   a { color: black; text-decoration: underline; }
 }
-
