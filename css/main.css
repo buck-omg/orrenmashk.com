@@ -424,6 +424,32 @@ section + section { border-top: 1px solid var(--om-rule); }
 }
 .compliance-note strong { color: var(--om-gold-bright); display: block; margin-bottom: var(--space-1); text-transform: uppercase; font-size: var(--fs-xs); letter-spacing: 0.1em; }
 
+/* ---------- Mobile slide-in nav drawer ---------- */
+
+/* Backdrop (injected by nav.js) — hidden by default on all viewports */
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  z-index: 90;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+.nav-backdrop.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Drawer-only elements (header strip and footer CTA inside the drawer).
+   Hidden at desktop widths, revealed inside the drawer at mobile widths. */
+.nav-drawer-header,
+.nav-drawer-footer {
+  display: none;
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
   :root {
@@ -436,21 +462,133 @@ section + section { border-top: 1px solid var(--om-rule); }
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; gap: var(--space-6); }
   .form-row-2 { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
-  .nav-links {
-    display: none;
-    position: absolute;
-    top: 100%; left: 0; right: 0;
-    background: var(--om-ink);
-    flex-direction: column;
-    padding: var(--space-4) var(--space-6);
-    border-bottom: 1px solid var(--om-rule);
-    gap: var(--space-2);
-  }
-  .nav-links.is-open { display: flex; }
-  .nav-links li { width: 100%; }
-  .nav-links a { display: block; padding: var(--space-3) 0; border-bottom: 1px solid var(--om-rule); }
   .nav-toggle { display: block; }
   .hero { padding: var(--space-16) 0 var(--space-12); }
+
+  /* Slide-in drawer at mobile widths. The <ul class="nav-links"> becomes
+     the drawer surface. It's absolutely positioned, slides in from the right
+     via transform, and gets its own padding, scroll, and chrome. */
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 86vw;
+    max-width: 360px;
+    background: linear-gradient(180deg, #141414 0%, #0F0F0F 100%);
+    border-left: 1px solid var(--om-rule);
+    box-shadow: -24px 0 60px rgba(0, 0, 0, 0.6);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+    z-index: 100;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-top: env(safe-area-inset-top, 0);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+  .nav-links.is-open {
+    transform: translateX(0);
+  }
+
+  /* Drawer header: eyebrow label on left, close button on right */
+  .nav-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-6) var(--space-6) var(--space-4);
+    border-bottom: 1px solid var(--om-rule);
+    margin-bottom: var(--space-2);
+  }
+  .nav-drawer-header .drawer-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--om-gold);
+  }
+  .nav-drawer-close {
+    background: transparent;
+    border: 1px solid var(--om-rule);
+    color: var(--om-text);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 2px;
+    padding: 0;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .nav-drawer-close:hover,
+  .nav-drawer-close:focus-visible {
+    border-color: var(--om-gold);
+    color: var(--om-gold-bright);
+    outline: none;
+  }
+
+  /* Nav items inside the drawer */
+  .nav-links li {
+    width: 100%;
+    display: block;
+  }
+  .nav-links a {
+    display: block;
+    padding: var(--space-4) var(--space-6);
+    font-size: 1.0625rem;
+    font-weight: 500;
+    color: var(--om-text-bright);
+    border: none;
+    border-left: 2px solid transparent;
+    text-decoration: none;
+  }
+  .nav-links a:hover,
+  .nav-links a[aria-current="page"] {
+    color: var(--om-gold-bright);
+    border-left-color: var(--om-gold);
+    background: rgba(201, 169, 97, 0.06);
+    border-bottom: none;
+  }
+
+  /* Drawer footer: CTA + company data */
+  .nav-drawer-footer {
+    display: block;
+    margin-top: auto;
+    padding: var(--space-6);
+    border-top: 1px solid var(--om-rule);
+  }
+  .nav-drawer-footer .btn {
+    width: 100%;
+    margin-bottom: var(--space-6);
+  }
+  .nav-drawer-footer .drawer-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6875rem;
+    color: var(--om-text-dim);
+    letter-spacing: 0.08em;
+    line-height: 1.7;
+  }
+  .nav-drawer-footer .drawer-meta span {
+    display: block;
+  }
+  .nav-drawer-footer .drawer-meta .gold {
+    color: var(--om-gold);
+  }
+
+  /* Lock page scroll when drawer is open */
+  body.nav-drawer-open {
+    overflow: hidden;
+  }
 }
 
 @media (max-width: 560px) {
