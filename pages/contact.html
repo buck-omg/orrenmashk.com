@@ -92,7 +92,13 @@
           <h2 style="font-size: 1.5rem;">Send a Message</h2>
           <span class="gold-rule" aria-hidden="true"></span>
 
-          <form class="contact-form" method="POST" action="/submit" aria-label="Contact form">
+          <form class="contact-form" method="POST" action="https://formspree.io/f/xlgobkgr" aria-label="Contact form">
+
+            <!-- Formspree honeypot anti-spam field (hidden) -->
+            <input type="text" name="_gotcha" style="display:none !important" tabindex="-1" autocomplete="off">
+
+            <!-- Formspree subject tag for inbox routing -->
+            <input type="hidden" name="_subject" value="OrrenMashk website inquiry">
             <div class="form-row-2">
               <div class="form-field">
                 <label for="first_name">First Name</label>
